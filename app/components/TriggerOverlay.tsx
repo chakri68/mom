@@ -13,7 +13,7 @@ export default function CakeOverlay({
 }: CakeOverlayProps) {
   const [greetingsText, setGreetingsText] = useState("");
   const [subGreetingsText, setSubGreetingsText] = useState("");
-  const [glowColor, setGlowColor] = useState("#FF69B4");
+  const [glowColor, setGlowColor] = useState("#FFA500");
   const { get } = useConfig();
 
   useEffect(() => {
