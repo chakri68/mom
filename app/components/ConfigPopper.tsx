@@ -21,7 +21,8 @@ export default function ConfigPopup({
     formState: { errors },
   } = useForm<Config>({
     defaultValues: {
-      background_color: "#FF69B4",
+      // Yellow
+      background_color: "#FFEA00",
       greetings_text: "Happy Mother's Day Ma!!",
       sub_greetings_text: "You're the best!",
       sender_name: "Someone special",
