@@ -79,16 +79,26 @@ export function useSoundDetection({
     if (!enabled || audioContextRef.current) return;
     if (typeof window === "undefined") return;
 
-    // @ts-expect-error The AudioContext constructor is not defined in Node.js
+    // @ts-expect-error AudioContext exists in browsers
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     audioContextRef.current = ctx;
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const source = ctx.createMediaStreamSource(stream);
+
+      // --- LOW PASS FILTER SETUP ---
+      const lowPassFilter = ctx.createBiquadFilter();
+      lowPassFilter.type = "lowpass";
+      lowPassFilter.frequency.value = 1000; // Let through low freqs (e.g., breath), cut higher ones
+      lowPassFilter.Q.value = 1; // Default is fine for basic cutoff
+
       const analyser = ctx.createAnalyser();
       analyser.fftSize = 256;
-      source.connect(analyser);
+
+      // Connect: source → low-pass filter → analyser
+      source.connect(lowPassFilter);
+      lowPassFilter.connect(analyser);
 
       analyserRef.current = analyser;
       dataArrayRef.current = new Uint8Array(analyser.fftSize);

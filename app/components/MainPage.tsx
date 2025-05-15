@@ -9,7 +9,18 @@ import { ConfigProvider } from "../context/ConfigContext";
 
 function Fallback() {
   return (
-    <div style={{ color: "white", fontSize: "1.5rem", textAlign: "center" }}>
+    <div
+      style={{
+        color: "white",
+        fontSize: "1.5rem",
+        textAlign: "center",
+        width: "100vw",
+        height: "100vh",
+        display: "grid",
+        placeItems: "center",
+        backgroundColor: "#333",
+      }}
+    >
       Loading configuration...
     </div>
   );
