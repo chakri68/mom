@@ -2,10 +2,10 @@
 
 import { Suspense, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import Cake from "./Cake";
 import WelcomeScreen from "./WelcomeScreen";
-import { PopperAnimationProvider } from "../context/PopperContext";
 import { ConfigProvider } from "../context/ConfigContext";
+import { ConfettiPopperProvider } from "../context/PopperContext";
+import Cake from "./Cake";
 
 function Fallback() {
   return (
@@ -36,7 +36,7 @@ export default function MothersDay() {
   return (
     <Suspense fallback={<Fallback />}>
       <ConfigProvider>
-        <PopperAnimationProvider>
+        <ConfettiPopperProvider>
           <div
             style={{
               display: "grid",
@@ -59,7 +59,7 @@ export default function MothersDay() {
               )}
             </AnimatePresence>
           </div>
-        </PopperAnimationProvider>
+        </ConfettiPopperProvider>
       </ConfigProvider>
     </Suspense>
   );

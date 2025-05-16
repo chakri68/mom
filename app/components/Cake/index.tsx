@@ -3,14 +3,14 @@ import "./Cake.scss";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSoundDetection } from "@/app/hooks/useSoundDetection";
 import Candle from "./Candle";
-import { usePopperAnimation } from "../../context/PopperContext";
 import CakeOverlay from "../TriggerOverlay";
 import ConfettiCanvas from "../TopdownConfetti";
+import { useConfettiPopper } from "@/app/context/PopperContext";
 
 export default function Cake() {
   const { blowStrength, startListening } = useSoundDetection({
     threshold: 0.08,
-    smoothingFactor: 0.3,
+    smoothingFactor: 0.4,
   });
   const triggerTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -18,7 +18,7 @@ export default function Cake() {
   const [isReady, setIsReady] = useState(false);
 
   const triggerCooldown = 0.5; // seconds
-  const threshold = 0.08; // Minimum blow strength to trigger the popper
+  const threshold = 0.3; // Minimum blow strength to trigger the popper
 
   // Set isReady after a short delay to allow entrance animation to complete
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Cake() {
     return () => clearTimeout(timer);
   }, []);
 
-  const triggerPopper = usePopperAnimation();
+  const { triggerConfettiPopper } = useConfettiPopper();
 
   useEffect(() => {
     if (blowStrength > threshold && !triggered && isReady) {
@@ -39,7 +39,11 @@ export default function Cake() {
         triggerTimer.current = setTimeout(() => {
           setTriggered(true);
         }, triggerCooldown * 1000);
-      triggerPopper();
+      triggerConfettiPopper({
+        confetti: true,
+        heart: true,
+        star: true,
+      });
     }
   }, [blowStrength, isReady]);
 

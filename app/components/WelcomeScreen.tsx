@@ -20,9 +20,13 @@ export default function WelcomeScreen({ onContinue }: WelcomeScreenProps) {
       const storedName = get("sender_name", "Someone special");
       const storedMessage = get("welcome_message", "has a surprise for you");
       const storedGlowColor = get("background_color", "#FFA500");
+      const greeting = get("greetings_text", "Greetings!");
       setGlowColor(storedGlowColor);
       setSenderName(storedName);
       setWelcomeMessage(storedMessage);
+      if (greeting) {
+        document.title = `${greeting}!!`;
+      }
     }
   }, []);
 
